@@ -1,0 +1,6 @@
+{
+  "name": "Código Silencioso Vol 2",
+  "description": "Sitio web profesional y cinematográfico para el libro Código Silencioso Volumen 2.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -26,6 +26,8 @@ import { AppContent } from "./types";
 import { DEFAULT_CONTENT } from "./defaultContent";
 import { CreatorPanel } from "./components/CreatorPanel";
 import { ComplianceModals } from "./components/ComplianceModals";
+import { trackVisit, trackClick } from "./services/tracker";
+import { AdminDashboard } from "./components/AdminDashboard";
 
 // Import book cover image
 // @ts-ignore
@@ -388,6 +390,7 @@ const FAQRow: React.FC<FAQItemProps> = ({ question, answer }) => {
 export default function App() {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
+  const [isAdminOpen, setIsAdminOpen] = useState<boolean>(false);
   const [content, setContent] = useState<AppContent>(() => {
     const saved = localStorage.getItem("codigo_silencioso_content");
     if (saved) {
@@ -423,19 +426,86 @@ export default function App() {
     script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${content.adsenseClientId}`;
   }, [content.adsenseClientId]);
 
-  // Invisible back-door shortcut for site owner/dev to access editing drawer
-  // Triggered by holding (Ctrl OR Alt OR Command) + Shift + E, or navigating to ?edit=true
+  // Dynamically inject Google Analytics 4 (GA4) inside <head> if measurement ID is provided
+  useEffect(() => {
+    if (!content.googleAnalyticsId) return;
+
+    const externalScriptId = "google-analytics-script";
+    const inlineScriptId = "google-analytics-inline";
+
+    let script = document.getElementById(externalScriptId) as HTMLScriptElement;
+    if (!script) {
+      script = document.createElement("script");
+      script.id = externalScriptId;
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${content.googleAnalyticsId}`;
+      document.head.appendChild(script);
+    }
+
+    let inlineScript = document.getElementById(inlineScriptId) as HTMLScriptElement;
+    if (!inlineScript) {
+      inlineScript = document.createElement("script");
+      inlineScript.id = inlineScriptId;
+      inlineScript.innerHTML = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${content.googleAnalyticsId}');
+      `;
+      document.head.appendChild(inlineScript);
+    }
+  }, [content.googleAnalyticsId]);
+
+  // Track page visits and global link clicks
+  useEffect(() => {
+    // Record page view on load
+    trackVisit();
+
+    // Global listener for tracking button/link clicks
+    const handleGlobalClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      let current: HTMLElement | null = target;
+      while (current && current !== document.body) {
+        if (current.tagName === "A" || current.tagName === "BUTTON") {
+          // Skip tracking clicks inside the admin dashboard to avoid cluttering metrics
+          if (current.closest(".admin-dashboard") || current.id === "admin-dashboard" || current.closest("#admin-dashboard")) {
+            return;
+          }
+          const id = current.id || current.getAttribute("data-track-id") || "";
+          const text = current.innerText || current.getAttribute("aria-label") || "";
+          const href = current.getAttribute("href") || "";
+          trackClick(id || current.tagName.toLowerCase(), text, href);
+          break;
+        }
+        current = current.parentElement;
+      }
+    };
+
+    window.addEventListener("click", handleGlobalClick);
+    return () => window.removeEventListener("click", handleGlobalClick);
+  }, []);
+
+  // Invisible back-door shortcut for site owner/dev to access editing drawer or admin panel
+  // Triggered by holding (Ctrl OR Alt OR Command) + Shift + E for Editor, or + A for Admin Analytics
   useEffect(() => {
     const handleKeys = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey || e.altKey) && e.shiftKey && e.key.toLowerCase() === "e") {
-        e.preventDefault();
-        setIsPanelOpen((prev) => !prev);
+      if ((e.ctrlKey || e.metaKey || e.altKey) && e.shiftKey) {
+        if (e.key.toLowerCase() === "e") {
+          e.preventDefault();
+          setIsPanelOpen((prev) => !prev);
+        } else if (e.key.toLowerCase() === "a") {
+          e.preventDefault();
+          setIsAdminOpen((prev) => !prev);
+        }
       }
     };
     window.addEventListener("keydown", handleKeys);
 
     if (window.location.search.includes("edit=true") || window.location.hash === "#edit") {
       setIsPanelOpen(true);
+    }
+    if (window.location.search.includes("admin=true") || window.location.hash === "#admin") {
+      setIsAdminOpen(true);
     }
 
     return () => window.removeEventListener("keydown", handleKeys);
@@ -970,10 +1040,18 @@ export default function App() {
             <a href="https://instagram.com/codigosilencioso_" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors">
               Instagram @codigosilencioso_
             </a>
+            <span className="text-slate-700">|</span>
+            <button
+              id="admin-portal-link"
+              onClick={() => setIsAdminOpen(true)}
+              className="text-brand-gold hover:text-white transition-colors cursor-pointer flex items-center gap-1 font-bold font-mono decoration-brand-gold hover:underline decoration-brand-gold/40"
+            >
+              🔒 Panel Intel
+            </button>
           </div>
 
           <div className="text-[9px] text-slate-600 font-mono pt-1">
-            Pulsar teclas <kbd className="bg-black/40 px-1 py-0.5 rounded border border-white/5 mx-0.5 select-all">Shift</kbd> + <kbd className="bg-black/40 px-1 py-0.5 rounded border border-white/5 mx-0.5 select-all">E</kbd> para abrir el panel de autor.
+            Pulsar teclas <kbd className="bg-black/40 px-1 py-0.5 rounded border border-white/5 mx-0.5">Ctrl</kbd> + <kbd className="bg-black/40 px-1 py-0.5 rounded border border-white/5 mx-0.5">Shift</kbd> + <kbd className="bg-black/40 px-1 py-0.5 rounded border border-white/5 mx-0.5">A</kbd> para acceder a la analítica autorizada.
           </div>
         </div>
       </footer>
@@ -984,6 +1062,12 @@ export default function App() {
         activeType={compliance.type}
         onClose={() => setCompliance({ isOpen: false, type: null })}
         soporteEmail={content.soporteEmail || "contacto@codigosilencioso.com"}
+      />
+
+      {/* Admin Analytics & Visitor Dashboard */}
+      <AdminDashboard
+        isOpen={isAdminOpen}
+        onClose={() => setIsAdminOpen(false)}
       />
     </div>
   );

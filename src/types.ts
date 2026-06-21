@@ -26,6 +26,7 @@ export interface AppContent {
   paymentUrl: string;
   bookCoverUrl?: string;
   adsenseClientId?: string;
+  googleAnalyticsId?: string;
   soporteEmail?: string;
   hero: {
     badgeText: string;

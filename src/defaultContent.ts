@@ -3,6 +3,7 @@ import { AppContent } from "./types";
 export const DEFAULT_CONTENT: AppContent = {
   paymentUrl: "https://pay.hotmart.com/T105668877X",
   adsenseClientId: "ca-pub-2094449222217900",
+  googleAnalyticsId: "",
   soporteEmail: "contacto@codigosilencioso.com",
   hero: {
     badgeText: "Del autor de Código Silencioso",

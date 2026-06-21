@@ -841,15 +841,15 @@ export const CreatorPanel: React.FC<CreatorPanelProps> = ({
         {/* ================= TAB 7: ADVANCED & JSON IMPORT/EXPORT ================= */}
         {activeTab === "advanced" && (
           <div className="space-y-5 text-sans text-xs">
-            {/* Google AdSense Integration Settings */}
+            {/* Google AdSense & Analytics Integration Settings */}
             <div className="bg-brand-gold/10 border border-brand-gold/30 p-4 rounded-xl space-y-3.5">
               <h4 className="font-mono text-brand-gold font-bold uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                <Globe className="w-4 h-4 text-brand-gold" /> Integración con Google AdSense
+                <Globe className="w-4 h-4 text-brand-gold" /> Integraciones de Google (Monetización y Visitas)
               </h4>
               <p className="text-slate-300 leading-relaxed text-[11px]">
-                Configura tu ID de Editor de Google AdSense para inyectar automáticamente el código de monetización oficial en la cabecera (<code className="bg-black px-1 py-0.5 rounded text-brand-gold font-mono">&lt;head&gt;</code>) de tu web y validar la URL para aprobación de AdSense.
+                Configura tus IDs de Google para inyectar automáticamente los scripts correspondientes en la cabecera de tu sitio web (<code className="bg-black px-1 py-0.5 rounded text-brand-gold font-mono">&lt;head&gt;</code>) y medir tus resultados de manera profesional.
               </p>
-              <div className="space-y-3 pt-1">
+              <div className="space-y-4 pt-1">
                 <div>
                   <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">ID de Editor AdSense (ca-pub-XXXXXXXXXXXXXXX)</label>
                   <input
@@ -857,13 +857,25 @@ export const CreatorPanel: React.FC<CreatorPanelProps> = ({
                     value={content.adsenseClientId || ""}
                     onChange={(e) => updateField("adsenseClientId", e.target.value)}
                     className="w-full bg-black/60 border border-brand-violet/35 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-brand-gold"
-                    placeholder="Ej. ca-pub-0925485493019485"
+                    placeholder="Ej. ca-pub-2094449222217900"
                   />
-                  <span className="text-[9px] text-slate-500 block mt-1">Este ID vincula la web con tu cuenta Adsense automáticamente.</span>
+                  <span className="text-[9px] text-slate-500 block mt-1">Este ID vincula la web con tu cuenta Adsense de Google para mostrar anuncios.</span>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Correo de Soporte Oficial (Para AdSense y Usuarios)</label>
+                  <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">ID de Medición de Google Analytics 4 (G-XXXXXXXXXX)</label>
+                  <input
+                    type="text"
+                    value={content.googleAnalyticsId || ""}
+                    onChange={(e) => updateField("googleAnalyticsId", e.target.value)}
+                    className="w-full bg-black/60 border border-brand-violet/35 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-brand-gold"
+                    placeholder="Ej. G-4Y6W8K2P9Q"
+                  />
+                  <span className="text-[9px] text-slate-500 block mt-1">Ingresa tu código "G-" de Analytics para ver exactamente cuántas visitas registra tu sitio en tiempo real.</span>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Correo de Soporte Oficial (Para Cláusulas Legales)</label>
                   <input
                     type="email"
                     value={content.soporteEmail || "contacto@codigosilencioso.com"}
@@ -871,7 +883,7 @@ export const CreatorPanel: React.FC<CreatorPanelProps> = ({
                     className="w-full bg-black/60 border border-brand-violet/35 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-gold"
                     placeholder="Ej. soporte@codigosilencioso.com"
                   />
-                  <span className="text-[9px] text-slate-500 block mt-1">Utilizado en las cláusulas de las políticas de privacidad y formularios de contacto.</span>
+                  <span className="text-[9px] text-slate-500 block mt-1">Se utiliza automáticamente en los textos de políticas de privacidad, cookies, términos y formularios.</span>
                 </div>
               </div>
             </div>

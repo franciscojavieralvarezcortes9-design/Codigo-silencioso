@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "site_activity": {
+      "title": "Site Activity",
+      "description": "Log entry of page visits and interactive clicks on call-to-actions, used for conversion analytics",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["visit", "click"],
+          "description": "The category of traffic recorded (either pageview visit or element click)"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The exact date and time the event was recorded in UTC"
+        },
+        "userAgent": {
+          "type": "string",
+          "description": "The web browser's user agent string of the visitor"
+        },
+        "referrer": {
+          "type": "string",
+          "description": "The referring URL page from which the visitor arrived"
+        },
+        "path": {
+          "type": "string",
+          "description": "The route path and query parameters loaded by the user"
+        },
+        "screenSize": {
+          "type": "string",
+          "description": "The window dimensions in pixels (e.g. 1920x1080) of the browsing device"
+        },
+        "language": {
+          "type": "string",
+          "description": "The configured client browser locale sequence (e.g. es-419 or en)"
+        },
+        "elementId": {
+          "type": "string",
+          "description": "The optional HTML id attribute of the clicked button or key link"
+        },
+        "elementText": {
+          "type": "string",
+          "description": "The text label content inside the clicked item (truncated if extremely long)"
+        },
+        "href": {
+          "type": "string",
+          "description": "The target action or payment redirect reference URL from the hyperlink"
+        }
+      },
+      "required": ["type", "timestamp", "userAgent", "referrer", "path", "screenSize", "language"]
+    }
+  },
+  "firestore": {
+    "/site_activity/{document}": {
+      "schema": "site_activity",
+      "description": "Secure Firestore storage collection tracking web traffic, restricted for analytics access to the authorized site administrator"
+    }
+  }
+}

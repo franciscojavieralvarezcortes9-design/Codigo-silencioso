@@ -20,7 +20,8 @@ import {
   Flame,
   HelpCircle,
   Edit,
-  Settings
+  Settings,
+  ExternalLink
 } from "lucide-react";
 import { AppContent } from "./types";
 import { DEFAULT_CONTENT } from "./defaultContent";
@@ -932,6 +933,80 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* ----------------- SECTION: SAGA COMPLETA / OTROS LIBROS ----------------- */}
+      {content.otherBooks && content.otherBooks.length > 0 && (
+        <section id="saga" className="py-24 relative bg-black/45 border-y border-brand-violet/10">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-violet/5 rounded-full blur-[120px] pointer-events-none" />
+          
+          <div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <span className="text-xs font-mono text-brand-gold tracking-widest uppercase block mb-2 animate-pulse">
+                [ COLECCIÓN COMPLETA DE PODER ]
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl text-white tracking-wide font-black">
+                Otros Protocolos de Reconfiguración
+              </h2>
+              <p className="text-sm text-slate-400 font-mono mt-3 max-w-lg mx-auto">
+                Profundiza en la neurociencia aplicada, desactiva la reactividad impulsiva y asume el comando absoluto.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {content.otherBooks.map((book, idx) => (
+                <div
+                  key={idx}
+                  className="bg-brand-dark/95 border border-brand-violet/20 hover:border-brand-gold/45 rounded-2xl p-6 flex flex-col sm:flex-row gap-6 transition-all duration-300 hover:shadow-[0_15px_35px_rgba(245,166,35,0.06)] transform hover:-translate-y-1.5 group"
+                >
+                  {/* Book Cover */}
+                  <div className="w-full sm:w-1/3 flex-shrink-0 flex items-center justify-center">
+                    <div className="relative max-w-[130px] w-full rounded-xl border border-brand-violet/20 overflow-hidden shadow-2xl bg-black transform group-hover:scale-[1.04] transition-all duration-500">
+                      <img
+                        src={book.coverUrl}
+                        alt={book.title}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                    </div>
+                  </div>
+
+                  {/* Book Info */}
+                  <div className="flex flex-col justify-between flex-grow space-y-4">
+                    <div className="space-y-2">
+                      {book.badge && (
+                        <span className="inline-block text-[9px] font-mono tracking-widest bg-brand-violet/15 border border-brand-violet/30 rounded px-2.5 py-1 text-brand-gold">
+                          {book.badge}
+                        </span>
+                      )}
+                      <h3 className="font-serif text-lg font-black text-white leading-tight tracking-wide group-hover:text-brand-gold transition-colors">
+                        {book.title}
+                      </h3>
+                      <p className="text-[11px] font-mono text-brand-gold tracking-tight italic leading-snug">
+                        {book.subtitle}
+                      </p>
+                      <p className="text-xs text-slate-300 leading-relaxed text-justify">
+                        {book.description}
+                      </p>
+                    </div>
+
+                    <div className="pt-2">
+                      <a
+                        href={book.paymentUrl}
+                        onClick={() => trackClick("hotmart_click", book.title)}
+                        className="w-full inline-flex items-center justify-center gap-1.5 bg-brand-violet/20 border border-brand-violet/40 hover:bg-brand-gold hover:text-black hover:border-brand-gold transition-all text-brand-gold text-xs font-mono font-bold tracking-wider py-3 px-4 rounded-xl cursor-pointer"
+                      >
+                        <span>ADQUIRIR COPIA</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ----------------- INTRODUCING PORTION COLLAPSE / FAQ ----------------- */}
       <section className="py-20 relative bg-brand-dark">

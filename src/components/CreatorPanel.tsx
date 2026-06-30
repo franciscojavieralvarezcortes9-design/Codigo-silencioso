@@ -259,6 +259,46 @@ export const CreatorPanel: React.FC<CreatorPanelProps> = ({
                 </div>
               </div>
             </div>
+
+            {content.otherBooks && content.otherBooks.length > 0 && (
+              <div className="border-t border-brand-violet/15 pt-4">
+                <h3 className="text-xs font-mono text-slate-400 uppercase tracking-widest mb-3">Saga: Enlaces de Otros Libros</h3>
+                
+                {content.otherBooks.map((book, idx) => (
+                  <div key={idx} className="bg-black/30 border border-brand-violet/15 p-3 rounded-lg mb-3 space-y-2">
+                    <span className="text-[10px] font-mono font-bold text-brand-gold uppercase block">Libro {idx + 1}: {book.title}</span>
+                    
+                    <div>
+                      <label className="block text-[10px] font-mono text-slate-500">Título del Libro</label>
+                      <input
+                        type="text"
+                        value={book.title}
+                        onChange={(e) => {
+                          const updated = [...content.otherBooks!];
+                          updated[idx] = { ...updated[idx], title: e.target.value };
+                          updateField("otherBooks", updated);
+                        }}
+                        className="w-full bg-black/60 border border-brand-violet/30 rounded px-2.5 py-1 text-xs text-slate-200 focus:outline-none focus:border-brand-gold"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-mono text-slate-500">Enlace de Hotmart</label>
+                      <input
+                        type="text"
+                        value={book.paymentUrl}
+                        onChange={(e) => {
+                          const updated = [...content.otherBooks!];
+                          updated[idx] = { ...updated[idx], paymentUrl: e.target.value };
+                          updateField("otherBooks", updated);
+                        }}
+                        className="w-full bg-black/60 border border-brand-violet/30 rounded px-2.5 py-1 text-xs text-slate-200 focus:outline-none focus:border-brand-gold"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

@@ -22,12 +22,22 @@ export interface FAQRowItem {
   answer: string;
 }
 
+export interface ProductBook {
+  title: string;
+  subtitle: string;
+  description: string;
+  coverUrl: string;
+  paymentUrl: string;
+  badge?: string;
+}
+
 export interface AppContent {
   paymentUrl: string;
   bookCoverUrl?: string;
   adsenseClientId?: string;
   googleAnalyticsId?: string;
   soporteEmail?: string;
+  otherBooks?: ProductBook[];
   hero: {
     badgeText: string;
     titleLine1: string;

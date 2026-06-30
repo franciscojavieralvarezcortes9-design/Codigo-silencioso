@@ -1,4 +1,8 @@
 import { AppContent } from "./types";
+// @ts-ignore
+import reconfiguracionCover from "./assets/images/reconfiguracion_final_cover_1782786676956.jpg";
+// @ts-ignore
+import reprogramacionCover from "./assets/images/reprogramacion_sistema_cover_1782786688595.jpg";
 
 export const DEFAULT_CONTENT: AppContent = {
   paymentUrl: "https://pay.hotmart.com/T105668877X",
@@ -195,6 +199,24 @@ export const DEFAULT_CONTENT: AppContent = {
     ctaButton: "SÍ, QUIERO MI COPIA →",
     fomoText: "Precio especial de lanzamiento — Por tiempo extremadamente limitado"
   },
+  otherBooks: [
+    {
+      title: "La Reconfiguración Final",
+      subtitle: "del hombre que deja de reaccionar… y empieza a comandar",
+      description: "Aprende a desactivar la reactividad automática de tu cerebro, dominar tus impulsos primitivos y asumir el mando operativo de tu vida con neurociencia aplicada.",
+      coverUrl: reconfiguracionCover,
+      paymentUrl: "https://pay.hotmart.com/A105097742L",
+      badge: "PROTOCOLO DE CONTROL"
+    },
+    {
+      title: "La Reprogramación del Sistema Humano",
+      subtitle: "Mente, Cuerpo y Dirección Interna",
+      description: "Un manual técnico y riguroso para optimizar tu hardware biológico, reconfigurar tu software de hábitos y gobernar tu dirección interna.",
+      coverUrl: reprogramacionCover,
+      paymentUrl: "https://pay.hotmart.com/C104137200C",
+      badge: "LIBRO DE PODER"
+    }
+  ],
   footer: {
     text: "© 2026 Código Silencioso · Todos los derechos reservados. Este sitio no forma parte de Instagram ni de Facebook Inc. Hotmart® es una marca registrada.",
     footerLinks: [

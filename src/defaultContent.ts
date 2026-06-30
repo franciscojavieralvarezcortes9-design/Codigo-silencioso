@@ -13,12 +13,12 @@ export const DEFAULT_CONTENT: AppContent = {
     badgeText: "Del autor de Código Silencioso",
     titleLine1: "CÓDIGO SILENCIOSO",
     titleLine2: "VOLUMEN 2",
-    subtitle: "\"Hackea tu mente. Reescribe tu identidad. Domina tu realidad.\"",
+    subtitle: "\"Aplica herramientas de neurociencia a tu día a día, reconfigura hábitos y fortalece tu autodisciplina.\"",
     ctaButton: "OBTENER MI COPIA AHORA →",
     features: [
       "Acceso inmediato",
       "Formato digital (EPUB / PDF)",
-      "Transformación garantizada"
+      "Protocolos prácticos paso a paso"
     ]
   },
   about: {
@@ -26,7 +26,7 @@ export const DEFAULT_CONTENT: AppContent = {
     title: "¿Qué es Código Silencioso Vol. 2?",
     paragraphs: [
       "Una guía práctica de neurociencia aplicada, reprogramación mental y autoliberación neuronal. Esto no es un libro de consejos vacíos, slogans motivacionales ni divagaciones místicas.",
-      "Es un protocolo de reconfiguración sistemática. Está rigurosamente estructurado para personas hartas de excusas que pretenden asumir las riendas operativas de su mente, reprogramar sus comportamientos inconscientes y gobernar su biología a voluntad.",
+      "Es un protocolo de reconfiguración sistemática. Está rigurosamente estructurado para personas que pretenden asumir las riendas operativas de su mente, reprogramar sus comportamientos inconscientes y gestionar su biología y guiar su comportamiento de forma intencional.",
       "A través de explicaciones directas, directrices biomecánicas de hábitos y plantillas de rutinas, consolidarás un nivel supremo de autodominio cognitivo bajo cualquier escenario de presión y límites."
     ],
     quote: "\"El primer tomo redefinió la conciencia de miles. El Volumen 2 proporciona las herramientas para reconstruir tu realidad biológica.\"",
